@@ -1,40 +1,36 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.String;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainClass {
     //-----------------------------------------------------------------------------------------------------------------
-    public static void main(String[] args) throws Exception {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int[] array = new int[20];
-        for (int i = 0; i < 20; i++) {
-            array[i] = Integer.parseInt(reader.readLine());
-        }
+    public static void main(String[] args) {
+        String[] cats = new String[]{"васька", "мурка", "дымка", "рыжик", "серый", "снежок", "босс", "борис", "визя", "гарфи"};
 
-        sort(array);
+        Map<String, Cat> map = addCatsToMap(cats); //создаём карту методом addCatsToMap
 
-        for (int x : array) {
-            System.out.println(x);
+
+        for (Map.Entry<String, Cat> pair : map.entrySet()) {
+            System.out.println(pair.getKey() + " - " + pair.getValue());
         }
     }
+    public static Map<String, Cat> addCatsToMap (String[] cats){ //наполняем карту именами котов их списка и объектами
+        Map<String, Cat> map = new HashMap<>();
 
-    public static void sort(int[] array) {
+        for (int i = 0; i < cats.length; i++) {
+            map.put(cats[i], new Cat(cats[i]));
+        }
+        return map;
+    }
+    public static class Cat {
+        String name;
+        public Cat(String name) {
+            this.name = name;
+        }
 
-        for (int i = 0; i < array.length; i++) {
-            int max = array[i];
-            int pointer = i;
-            for (int j = i; j < array.length; j++) {
-                if (array[j] > max) {
-                    max = array[j];
-                    pointer = j;
-                }}
-                System.out.println(i + " шаг: Макcимум " + max + " на позиции " + pointer);
-                for (int k = pointer; k >= i+1; k--)//сдвигаем массив от i до pointer на 1 позицию вправо
-                    array[k] = array[k - 1];
-
-                array[i] = max; //записываем максимум в i ячейку
-                System.out.println("Теперь массив такой: " + Arrays.toString(array));
-            }
+        @Override
+        public String toString() {
+            return name != null ? name.toUpperCase() : null;
         }
     }
+}
